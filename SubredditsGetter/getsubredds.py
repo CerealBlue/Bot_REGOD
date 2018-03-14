@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup as Bsoup
 my_url = 'https://www.redditmetrics.com/top '
 
 #List of the subreddits
-
 subreddits = []
 
 #Opening the connection, grabbing the page
@@ -21,20 +20,15 @@ count = 0
 
 print paras
 paras2 = str(paras)
+
 file_obj = open("Params", 'w')
-
 file_obj.write(paras2)
-
 file_obj.close()
-
-count = 0
-
 
 fileObj = open("Params", 'r')
 params = fileObj.read()
 i = 0
 listo = []
-
 
 for i in range(0,len(params),1):
 	if (params[i] == ">"):
@@ -59,3 +53,5 @@ newFile = open("Subreddits", 'w')
 for i in listo:
 	print i
 	newFile.write(str(i)+"\n")
+
+#END

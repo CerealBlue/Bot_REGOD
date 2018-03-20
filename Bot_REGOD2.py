@@ -112,6 +112,26 @@ def calculateTimeDiff(lastTime):
 		return (False)
 #__ENDIF__(calculateTimeDiff)
 
+#__START__(compensateData)
+def compensateData(lastTime, subRList):
+	FMT = '%Y-%m-%d %H:%M:%S.%f'
+	
+	nowTime = timeNow()
+	timeDiff = nowTime - datetime.datetime.strptime(lastTime, FMT)
+
+	trailBy = timeDiff/35.5
+	remainTime = timeDiff % 35.5
+
+	#If the SubR's lost could be retrived within the amount of time left for the next data extraction
+	if ( (remainTime/(trailBy+1)) > 5.25):
+		compensateList = []
+		dataREGODFileObj = open("~~~DataREGOD~~~", "r")
+		
+	
+
+
+#__ENDIF__(compensateData)
+
 
 
 

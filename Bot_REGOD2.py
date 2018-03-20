@@ -8,58 +8,113 @@ Oh yesh!
 2018-March-2. 19:56"""
 
 """import praw"""
-import time
+def main():
+	fileObj1 = open("~~~dataREGOD~~~~", "r")
+	fileObj1.seekg(0)
+	firstChar = fileObj.read(1)
 
-#Functions:
-def popularity(ups, downs, numComments):
-    if ((ups+downs) > numComments):
-        return ups+downs
-    return numComments
+	skip = 0
 
-def delayFunc():
-    time.sleep(35.5)
+	if not firstChar:
+		firstTime()
+		skip = 1
+	fileObj1.close()
 
-
-#Declaring the Bot to Reddit:
-#bot = I ain't putting this here
+	if (skip == 0):
+		TimeLag()
 
 
-#Open File:
-fileObj = open("Subreddits", 'r')
-subredditsBuffer = fileObj.read()
-subredditsList = []
-listBuffer = []
-for i in subredditsBuffer:
-    if (i == '\n'):
-        subredditAppender = ''.join(listBuffer)
-        subredditsList.append(subredditAppender)
-        listBuffer = []
-    else:
-        listBuffer.append(i)
-#A list called subredditsList has been created that has the list of the top 100 subreddits
-#Close File
-fileObj.close()
 
-dictionaryBuffer = {}
+#__START__(firstTime)
+def firstTime(subRList):
+	dataREGODFileObj = open("~~~dataREGOD~~~", "w+")
+	
+	for subR in subRList:
+		subRCounter = 0
+		
+		for post in bot.subreddit(subR).top('hour'):
+			subRCounter += 1
+			postVars = vars(post)
 
-#Create Dictionary Buffer's File/Open it
-fileObj2 = open("dictionaryBufferFile", 'w+')
-fileObj2.seekg(0)
-character1 = fileObj.read(1)
+			popularity = popularityIndex(int(postVars['ups']), int(postVars['downs']), int(postVars['num_comments']))
 
-#This is the first time the program is ever running
-if not character1:
-    fileObj2.seekg(0)
-    for i in subredditsList:
-        count = 0
-        for post in bot.subreddit(i).top('hour'):
-            count += 1
-            postVariables = vars(post)
-            displayValue = popularity(int(postVariables['ups']), int(postVariables['downs']), int(postVariables['num_comments']))
-            #SubR, CurrentTime, ID, Popularity 
-            fileObj2.write(str(i), str(time.asctime(time.localtime( time.time() ) )), str(postVariables['id']), str(displayValue), "\n",  sep="/")
-            if (count > 5):
-                break
-            delayFunc()
-        print ("1.Finish:\t", str(i))
-    print ("Finish First Analysis")
+			# $SubR.CurTime.postID.popularity$ #
+			dataREGODFileObj.write("$" + str(i) + "." + str(timeNow()) +"." + str(postVars['id']) +"." + str(popularity) + "$\n")
+
+			if (count>5):
+				break
+			
+			delayFunc()
+		
+		print ("Finished Subreddit:\t", subR, "\n")
+
+	print ("Finished TIME#1")
+	dataREGODFileObj.close()
+#__ENDIF__(firstTime)
+
+#__START__(TimeLag)
+def TimeLag():	
+	dataREGODFileObj = open("~~~dataREGOD~~~", "a")	
+	
+	#To Get Last Recorded Time
+	condition = True
+	counter = 0
+
+	while (condition):
+		dataREGODFileObj.seekg(-2)
+		char= dataREGODFileObj.read(1)
+
+		if(char == '.'):
+			counter += 1
+
+		if (counter == 3):
+			condition = False
+
+	condition = True
+	previousTimeList = []
+
+	while (condition):
+		char = dataREGODFileObj.read(1)
+
+		if (char == '.'):
+			condition = False
+			break
+
+		previousTimeList.append(char)
+
+	dataREGODFileObj.close()
+	
+	previousTime = ''.join(previousTimeList)
+	
+	proceed = calculateTimeDiff(previousTime)
+
+	if (proceed == False):
+		compensateData()
+	else:
+		delayFunc(proceed)
+		#MAKe InfIn Looup hear		
+		
+
+#__ENDIF__(TimeLag)
+
+#__START__(calculateTimeDiff)
+def calculateTimeDiff(lastTime):
+	FMT ='%Y-%m-%d %H:%M:%S.%f'
+	
+	nowTime = timeNow()
+	timeDiff = nowTime - datetime.datetime.strptime(lastTime, FMT)
+	
+	print ("\nSince last time, '", str(timeDiff), "' time has been elapsed.\n")
+
+	if ( int(timeDiff.total_seconds()) <= 35.5 ):
+		return (35.5 - (int(timeDiff.total_seconds()) )
+	else:
+		return (False)
+#__ENDIF__(calculateTimeDiff)
+
+
+
+
+
+
+if __name__ == "__main__": main()

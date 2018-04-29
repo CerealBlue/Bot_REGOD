@@ -5,7 +5,7 @@ A bot made for Reddit:
 >  best time a day a person should post to get the maximum number of upvotes. This bot will understand, in the due course of a month, 
 >  that certain days have higher traffic than others (Sunday's, Holiday's). <br><br/>
 	
-	Yet To finish Infin Louop<br/>
+	Yet To finish Infin Loup<br/>
 
 Bot_REdditGathererOfData = Bot_REGOD<br/>
 created by:<br/><br/>

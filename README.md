@@ -18,3 +18,9 @@ Oh yesh!<br/>
 2018-March-2. 19:56"""<br/>
 <br/><br/><br/>
 BlueCereal
+
+
+<h1><b>This Project Has been archived.</b></h1>
+Please visit:
+<a href="https://github.com/IceCereal/Bot_REGOD-New">https://github.com/IceCereal/Bot_REGOD-New</a>
+for the new Bot
